@@ -1,7 +1,7 @@
 // Service Worker für den Event-Guide.
 // Bei Änderungen an Dateien VERSION erhöhen (und die ?v= in index.html anpassen) –
 // dann wird der alte Cache beim nächsten Besuch automatisch ersetzt.
-const VERSION = '2026.1';
+const VERSION = '2026.2';
 const CACHE = `event-guide-${VERSION}`;
 
 const ASSETS = [
