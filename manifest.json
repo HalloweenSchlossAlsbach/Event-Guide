@@ -1,21 +1,15 @@
 {
-    "name": "Halloween Schloss Alsbach - Info",
-    "short_name": "EventInfo",
-    "start_url": ".",
+    "name": "Halloween Schloss Alsbach – Event-Guide",
+    "short_name": "Event-Guide",
+    "description": "Lageplan, Showzeiten, Essen & Getränke und Regeln für Halloween Schloss Alsbach 2026.",
+    "lang": "de",
+    "start_url": "./",
+    "scope": "./",
     "display": "standalone",
-    "background_color": "#1a1a1a",
-    "theme_color": "#000000",
-    "description": "Alle wichtigen Informationen für Besucher des Events.",
+    "background_color": "#0c0909",
+    "theme_color": "#0c0909",
     "icons": [
-        {
-            "src": "icons/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "icons/icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
+        { "src": "img/icon-192.png", "sizes": "192x192", "type": "image/png" },
+        { "src": "img/icon-512.png", "sizes": "512x512", "type": "image/png" }
     ]
 }
