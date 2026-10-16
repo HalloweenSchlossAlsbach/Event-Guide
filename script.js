@@ -212,10 +212,10 @@ function selectZone(zone, { reveal = false } = {}) {
     }
 }
 
-// Ein Klick-Handler für Legende, Nummern im Plan, Leiste in der Vollansicht und den Hauptbühnen-Hinweis
+// Ein Klick-Handler für Legende, Nummern im Plan, Leiste in der Vollansicht und die Stations-Links
 document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.zone, .map-spot, .stage-link');
-    if (btn) selectZone(btn.dataset.zone, { reveal: btn.classList.contains('stage-link') });
+    const btn = e.target.closest('.zone, .map-spot, .stage-link, .station-link');
+    if (btn) selectZone(btn.dataset.zone, { reveal: btn.matches('.stage-link, .station-link') });
 });
 
 // ---------- Lageplan: Vollansicht mit Zoom ----------

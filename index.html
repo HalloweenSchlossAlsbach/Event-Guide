@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#0c0909">
 
     <link rel="preload" href="./HalloweenSchrift.otf" as="font" type="font/otf" crossorigin>
-    <link rel="stylesheet" href="./style.css?v=2026.3">
+    <link rel="stylesheet" href="./style.css?v=2026.4">
     <link rel="manifest" href="./manifest.json">
     <link rel="icon" href="./img/icon-192.png">
     <link rel="apple-touch-icon" href="./img/icon-192.png">
@@ -123,13 +123,52 @@
 
             <p class="notice"><strong>Nur Barzahlung</strong> auf dem gesamten Gelände.</p>
 
-            <article class="card card--soon">
-                <h3 class="card-title">Essen <small>Station 4</small></h3>
-                <p>Die Speisekarte mit Preisen folgt hier in Kürze.</p>
+            <div class="group-head">
+                <h3 class="group-title">Essen <small>Foodtruck</small></h3>
+                <button type="button" class="station-link" data-zone="4"><b>4</b>Auf dem Plan</button>
+            </div>
+
+            <article class="card">
+                <h3 class="card-title">Burger</h3>
+                <dl class="prices">
+                    <div><dt>Hamburger</dt><dd><b>7,00 €</b></dd></div>
+                    <div><dt>Cheeseburger</dt><dd><b>7,50 €</b></dd></div>
+                    <div><dt>Baconburger</dt><dd><b>7,50 €</b></dd></div>
+                    <div><dt>Chili-Cheeseburger</dt><dd><b>7,50 €</b></dd></div>
+                    <div><dt>Chickenburger</dt><dd><b>7,50 €</b></dd></div>
+                    <div><dt>Veggieburger</dt><dd><b>7,50 €</b></dd></div>
+                    <div class="is-menu"><dt>Burger-Menü <small>Burger nach Wahl + Pommes</small></dt><dd><b>10,00 €</b></dd></div>
+                </dl>
             </article>
 
             <article class="card">
-                <h3 class="card-title">Alkoholfrei <small>Station 6</small></h3>
+                <h3 class="card-title">Wurst</h3>
+                <dl class="prices">
+                    <div><dt>Bratwurst</dt><dd><b>4,00 €</b></dd></div>
+                    <div><dt>Rindswurst</dt><dd><b>4,00 €</b></dd></div>
+                    <div><dt>Paprikawurst <small>pikant</small></dt><dd><b>4,00 €</b></dd></div>
+                    <div><dt>Currywurst</dt><dd><b>4,50 €</b></dd></div>
+                    <div class="is-menu"><dt>Wurst-Menü <small>Wurst + Pommes</small></dt><dd><b>6,00 €</b></dd></div>
+                    <div class="is-menu"><dt>Currywurst-Menü <small>Currywurst + Pommes</small></dt><dd><b>7,00 €</b></dd></div>
+                </dl>
+            </article>
+
+            <article class="card">
+                <h3 class="card-title">Pommes</h3>
+                <dl class="prices">
+                    <div><dt>Pommes <small>fresh &amp; crunchy</small></dt><dd><b>3,50 €</b></dd></div>
+                </dl>
+            </article>
+
+            <p class="fineprint">Fragen zu Zusatzstoffen und Allergenen? Am Foodtruck liegt ein Ordner aus, oder sprecht das Team direkt an.</p>
+
+            <div class="group-head">
+                <h3 class="group-title">Getränke</h3>
+                <button type="button" class="station-link" data-zone="6"><b>6</b>Auf dem Plan</button>
+            </div>
+
+            <article class="card">
+                <h3 class="card-title">Alkoholfrei</h3>
                 <dl class="prices">
                     <div><dt>Cola · Cola Zero · Fanta · Sprite</dt><dd><span>0,3 l <b>3,00 €</b></span><span>0,5 l <b>4,50 €</b></span></dd></div>
                     <div><dt>Wasser</dt><dd><span>0,3 l <b>2,50 €</b></span><span>0,5 l <b>4,00 €</b></span></dd></div>
@@ -371,6 +410,6 @@
         <div class="viewer-zones" id="viewer-zones" aria-label="Station auf dem Plan zeigen"></div>
     </div>
 
-    <script src="./script.js?v=2026.3"></script>
+    <script src="./script.js?v=2026.4"></script>
 </body>
 </html>

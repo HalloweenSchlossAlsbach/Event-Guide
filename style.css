@@ -598,12 +598,50 @@ main {
     letter-spacing: .04em;
 }
 
-.card--soon {
-    border-style: dashed;
-    border-color: #4a2a27;
+/* Zwischenüberschrift Essen / Getränke mit Sprung zur Station im Plan */
+.group-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 26px 0 10px;
 }
 
-.card--soon p { margin: 0; color: var(--muted); }
+.group-title {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.group-title small {
+    margin-left: 6px;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.station-link {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px 5px 5px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--bg-raised);
+    font-size: .85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.station-link b {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: #3a2b29;
+    font-size: .85rem;
+}
 
 .prices { margin: 0; }
 
@@ -619,6 +657,8 @@ main {
 .prices > div:first-child { border-top: 0; padding-top: 2px; }
 
 .prices dt { font-weight: 600; }
+
+.prices .is-menu dt { color: var(--red-hot); }
 
 .prices dt small {
     display: block;
