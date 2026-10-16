@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#0c0909">
 
     <link rel="preload" href="./HalloweenSchrift.otf" as="font" type="font/otf" crossorigin>
-    <link rel="stylesheet" href="./style.css?v=2026.2">
+    <link rel="stylesheet" href="./style.css?v=2026.3">
     <link rel="manifest" href="./manifest.json">
     <link rel="icon" href="./img/icon-192.png">
     <link rel="apple-touch-icon" href="./img/icon-192.png">
@@ -17,7 +17,6 @@
 
     <!-- Kopfbereich im Look der 2026er Plakate -->
     <header class="hero" id="top">
-        <p class="hero-kicker">Event-Guide 2026</p>
         <h1 class="hero-title">Halloween <span>Schloss Alsbach</span></h1>
 
         <ul class="dates" aria-label="Termine 2026">
@@ -41,19 +40,20 @@
         <!-- ========== LAGEPLAN ========== -->
         <section class="section" id="plan" aria-labelledby="plan-title">
             <div class="section-head">
-                <p class="eyebrow">Orientierung</p>
                 <h2 class="section-title" id="plan-title">Lageplan</h2>
-                <p class="section-sub">Tippe auf eine Station, um sie auf dem Plan zu finden. Tippe auf den Plan für die Vollansicht.</p>
             </div>
 
-            <figure class="map">
-                <button class="map-canvas" type="button" id="map-open" aria-label="Lageplan in Vollansicht öffnen">
+            <!-- Karte bleibt beim Scrollen durch die Liste oben stehen -->
+            <figure class="map" id="map">
+                <div class="map-canvas" id="map-canvas">
                     <img src="./img/lageplan-2026.jpg" width="922" height="618" alt="Lageplan des Geländes mit den nummerierten Stationen 1 bis 15">
                     <span class="map-hl" aria-hidden="true"></span>
-                    <span class="map-expand" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-                    </span>
-                </button>
+                    <button type="button" class="map-full" id="map-open">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                        Vollbild
+                    </button>
+                </div>
+                <figcaption class="map-caption" id="map-caption" aria-live="polite">Tippe auf eine Nummer im Plan oder unten auf einen Namen.</figcaption>
             </figure>
 
             <div class="legend">
@@ -85,9 +85,13 @@
         <!-- ========== SHOWZEITEN ========== -->
         <section class="section" id="shows" aria-labelledby="shows-title">
             <div class="section-head">
-                <p class="eyebrow">Programm</p>
                 <h2 class="section-title" id="shows-title">Showzeiten</h2>
             </div>
+
+            <button type="button" class="stage-link" data-zone="10">
+                <b>10</b>
+                <span>Alle Shows finden auf der Hauptbühne statt.<small>Auf dem Lageplan zeigen ›</small></span>
+            </button>
 
             <div class="tabs" role="tablist" aria-label="Wochentag wählen">
                 <button class="tab" type="button" role="tab" id="tab-abend" aria-controls="panel-abend" aria-selected="true" data-tab="abend">Freitag &amp; Samstag</button>
@@ -114,7 +118,6 @@
         <!-- ========== ESSEN & TRINKEN ========== -->
         <section class="section" id="essen" aria-labelledby="essen-title">
             <div class="section-head">
-                <p class="eyebrow">Stärkung</p>
                 <h2 class="section-title" id="essen-title">Essen und Trinken</h2>
             </div>
 
@@ -167,7 +170,6 @@
         <!-- ========== REGELN ========== -->
         <section class="section" id="regeln" aria-labelledby="regeln-title">
             <div class="section-head">
-                <p class="eyebrow">Gut zu wissen</p>
                 <h2 class="section-title" id="regeln-title">Regeln</h2>
             </div>
 
@@ -365,8 +367,10 @@
                 <span class="map-hl" aria-hidden="true"></span>
             </div>
         </div>
+        <!-- wird per script.js mit den Stationen aus der Legende gefüllt -->
+        <div class="viewer-zones" id="viewer-zones" aria-label="Station auf dem Plan zeigen"></div>
     </div>
 
-    <script src="./script.js?v=2026.2"></script>
+    <script src="./script.js?v=2026.3"></script>
 </body>
 </html>

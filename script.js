@@ -117,7 +117,7 @@ function updateToday() {
             const name = upcoming.querySelector('span').textContent;
             next.classList.remove('is-done');
             next.href = '#shows';
-            next.innerHTML = `<time>${upcoming.dataset.time}</time><span>${name}<small>Nächste Show · ${formatWait(toMinutes(upcoming.dataset.time) - nowMin)}</small></span>`;
+            next.innerHTML = `<time>${upcoming.dataset.time}</time><span>${name}<small>Nächste Show · Hauptbühne · ${formatWait(toMinutes(upcoming.dataset.time) - nowMin)}</small></span>`;
         } else {
             next.classList.add('is-done');
             next.removeAttribute('href');
@@ -143,13 +143,39 @@ function updateToday() {
 updateToday();
 setInterval(updateToday, 30 * 1000);
 
-// ---------- Lageplan: Stationen markieren ----------
+// ---------- Lageplan: Stationen ----------
+
+// Namen und Art der Stationen kommen aus der Legende – eine Quelle für Liste, Karte und Vollansicht.
+const STATIONS = {};
+$$('.legend .zone').forEach((btn) => {
+    STATIONS[btn.dataset.zone] = {
+        name: btn.lastChild.textContent.trim(),
+        scare: btn.classList.contains('zone--scare'),
+    };
+});
+
+// Leiste unter der Vollansicht mit Kopien der Legenden-Knöpfe füllen
+$$('.legend .zone').forEach((btn) => $('#viewer-zones').appendChild(btn.cloneNode(true)));
+
+// Unsichtbare Tippflächen über die Nummern im Plan legen (mindestens 32 px, damit man sie trifft)
+$$('.map-canvas').forEach((canvas) => {
+    Object.entries(ZONES).forEach(([zone, [l, t, w, h]]) => {
+        const spot = document.createElement('button');
+        spot.type = 'button';
+        spot.className = 'map-spot';
+        spot.dataset.zone = zone;
+        spot.setAttribute('aria-label', `${zone} ${STATIONS[zone].name}`);
+        spot.style.left = `${l + w / 2}%`;
+        spot.style.top = `${t + h / 2}%`;
+        spot.style.width = `max(${w}%, 32px)`;
+        spot.style.height = `max(${h}%, 32px)`;
+        canvas.appendChild(spot);
+    });
+});
 
 function placeHighlight(canvas, zone) {
     const hl = $('.map-hl', canvas);
-    const box = ZONES[zone];
-    if (!hl || !box) return;
-    const [l, t, w, h] = box;
+    const [l, t, w, h] = ZONES[zone];
     const padX = 1.2, padY = 1.8;
     hl.style.left = `${l - padX}%`;
     hl.style.top = `${t - padY}%`;
@@ -160,15 +186,36 @@ function placeHighlight(canvas, zone) {
     hl.classList.add('is-on');
 }
 
+function mapInView() {
+    const r = $('#map-canvas').getBoundingClientRect();
+    return r.top >= 0 && r.bottom <= window.innerHeight - 70;
+}
+
+const caption = $('#map-caption');
 let activeZone = null;
 
-$$('.zone').forEach((btn) => {
-    btn.addEventListener('click', () => {
-        activeZone = btn.dataset.zone;
-        $$('.zone').forEach((b) => b.classList.toggle('is-active', b === btn));
-        $$('.map-canvas').forEach((canvas) => placeHighlight(canvas, activeZone));
-        $('.map').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+function selectZone(zone, { reveal = false } = {}) {
+    const station = STATIONS[zone];
+    activeZone = zone;
+    $$('.zone').forEach((b) => b.classList.toggle('is-active', b.dataset.zone === zone));
+    $$('.map-canvas').forEach((canvas) => placeHighlight(canvas, zone));
+
+    caption.classList.add('is-selected');
+    caption.classList.toggle('is-scare', station.scare);
+    caption.innerHTML = `<b>${zone}</b><span>${station.name}<small>${station.scare ? 'Scare Zone' : 'Service'} · im Plan markiert</small></span>`;
+
+    if (!viewer.hidden) {
+        centerOnZone(zone);
+        $(`#viewer-zones .zone[data-zone="${zone}"]`).scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+    } else if (reveal || !mapInView()) {
+        $('#plan').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// Ein Klick-Handler für Legende, Nummern im Plan, Leiste in der Vollansicht und den Hauptbühnen-Hinweis
+document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.zone, .map-spot, .stage-link');
+    if (btn) selectZone(btn.dataset.zone, { reveal: btn.classList.contains('stage-link') });
 });
 
 // ---------- Lageplan: Vollansicht mit Zoom ----------
@@ -202,18 +249,14 @@ function centerOnZone(zone) {
     const scrollRect = viewerScroll.getBoundingClientRect();
     const x = canvasRect.left - scrollRect.left + viewerScroll.scrollLeft + ((l + w / 2) / 100) * canvasRect.width;
     const y = canvasRect.top - scrollRect.top + viewerScroll.scrollTop + ((t + h / 2) / 100) * canvasRect.height;
-    viewerScroll.scrollLeft = x - viewerScroll.clientWidth / 2;
-    viewerScroll.scrollTop = y - viewerScroll.clientHeight / 2;
+    viewerScroll.scrollTo({ left: x - viewerScroll.clientWidth / 2, top: y - viewerScroll.clientHeight / 2, behavior: 'smooth' });
 }
 
 function openViewer() {
     viewer.hidden = false;
     document.body.style.overflow = 'hidden';
     setZoom(window.innerWidth < 700 ? 1 : 0);
-    if (activeZone) {
-        placeHighlight(viewerCanvas, activeZone);
-        centerOnZone(activeZone);
-    }
+    if (activeZone) selectZone(activeZone);
     $('#viewer-close').focus();
 }
 
@@ -223,7 +266,8 @@ function closeViewer() {
     $('#map-open').focus();
 }
 
-$('#map-open').addEventListener('click', openViewer);
+// Tippen auf die Karte (außer auf eine Nummer) oder auf "Vollbild" öffnet die Vollansicht
+$('#map-canvas').addEventListener('click', (e) => { if (!e.target.closest('.map-spot')) openViewer(); });
 $('#viewer-close').addEventListener('click', closeViewer);
 $('#zoom-in').addEventListener('click', () => setZoom(zoomIndex + 1));
 $('#zoom-out').addEventListener('click', () => setZoom(zoomIndex - 1));
